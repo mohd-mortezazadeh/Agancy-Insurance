@@ -1,0 +1,50 @@
+{% load static %}
+
+{% block script %}
+		<script src="{% static 'assets/frontend/js/jquery-3.5.1.slim.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/popper.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/jquery.meanmenu.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/wow.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/owl.carousel.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/jquery.magnific-popup.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/jquery.nice-select.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/parallax.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/jquery.mixitup.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/jquery.appear.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/odometer.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/jquery.ajaxchimp.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/form-validator.min.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/contact-form-script.js' %}"></script>
+		<script src="{% static 'assets/frontend/js/custom.js' %}"></script>
+		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	
+		    <script>
+				const roomName = JSON.parse(document.getElementById('room-name').textContent);
+		
+				const notificationSocket = new WebSocket(
+					'ws://'
+					+ window.location.host
+					+ '/ws/notification/'
+					+ roomName
+					+ '/'
+				);
+				notificationSocket.onopen = function(event){
+				console.log("CONECTED")
+			}
+				notificationSocket.onmessage = function(e) {
+					console.log(e);
+					const data = JSON.parse(e.data);
+					
+					document.getElementById("notifications-dropdown").innerHTML = "<li class='dropdown-item'>" + data + "</li><hr class='dropdown-divider'>" + document.getElementById("notifications-dropdown").innerHTML;
+					document.getElementById("notification-badge").innerHTML = parseInt(document.getElementById("notification-badge").innerHTML) + 1;
+				};
+		
+				notificationSocket.onclose = function(e) {
+					console.error('Chat socket closed unexpectedly');
+				};
+
+			   
+			</script>
+{% endblock %}

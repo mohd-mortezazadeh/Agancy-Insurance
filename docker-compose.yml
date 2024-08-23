@@ -1,0 +1,96 @@
+version: "3.8"
+services:
+
+  # Redis
+  redis:
+    restart: always
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - 6379:6379
+
+  # Database Postgres
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=academy
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=siyamak1981
+     
+    ports:
+      - "5432:5432"
+    container_name: postgres_db
+  
+#elasticsearch  
+  es:
+    image: elasticsearch:7.16.2
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+
+
+  # Django Application
+  app:
+    build: .
+    volumes:
+      - .:/django
+    ports:
+      - 8000:8000
+    image: app:django
+    container_name: django_app
+    command: >
+      sh -c "python3 manage.py migrate &&
+             python3 manage.py runserver 0.0.0.0:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db 
+      - es
+
+  #channels
+  worker_channels:
+    build: .
+    command: python manage.py runworker
+    volumes: 
+      - .:/django
+    links:
+      - redis
+      
+  channels:
+    build: .
+    command: daphne -b 0.0.0.0 -p 8001 insurance.asgi:application
+    volumes:
+      - .:/django
+    ports:
+      - "8001:8001"
+    links:
+      - redis
+
+  # Celery
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A insurance worker -l DEBUG 
+    volumes:
+      - .:/django
+    container_name: celery
+    depends_on:
+      - db
+      - redis
+      - app
+
+
+  celerybeat:
+    build:
+      context: .
+    command: celery -A insurance beat -l INFO
+    volumes: 
+      - .:/django
+    depends_on:
+      - db
+      - redis
+      - app

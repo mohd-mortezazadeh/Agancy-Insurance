@@ -1,0 +1,363 @@
+{% extends 'frontend/shared/home.html' %}
+{% load form_tags %}
+{% load static %}
+{% block styles %}
+{% endblock %}
+{% block title %}آکادمی بیمه
+{% endblock title %}
+{% block body %}
+
+{% include 'frontend/slider/index.html' %}
+<section class="get-quat-area-six pb-100">
+        <div class="container">
+                <div class="tab get-quat-list-tab">
+                        <div class="row align-items-center">
+                                <div class="col-lg-4">
+                                        <ul class="tabs">
+                                          
+                                                {% for post in posts %}
+                                                {% if post.category.is_parent %}
+                                                <li class="single-get-list">
+                                                        <i class="{{ post.category.icon }}"></i>
+                                                        <span>{{ post.category.title }} </span>
+                                                </li>
+                                             {% endif %}
+                                                {% endfor %}
+                                   
+                                        </ul>
+                                </div>
+                                <div class="col-lg-4">
+                                        <div class="tab_content">
+                                                {% for post in posts %}
+                                                <div class="tabs_item">
+                                                        <div class="get-quat-img">
+                                                                {% if post.category.banner %}
+                                                                <img src="{{ post.category.banner.url }}"
+                                                                        alt="Image">
+                                                                {% endif %}
+                                                        </div>
+                                                </div>
+                                                {% endfor %}
+
+
+                                        </div>
+                                </div>
+                                <div class="col-lg-4">
+                                        <div class="tab_content">
+                                                {% for post in posts %}
+
+                                                <div class="tabs_item">
+                                                        <div class="get-quat-content">
+                                                                <a href="{{ post.get_absolute_url }}">
+                                                                        <h3>{{ post.title }}</h3>
+                                                                </a>
+                                                                <p>{{ post.content| striptags |safe| truncatewords:100 }}</p>
+                                                                <a href="{{ post.get_absolute_url }}"
+                                                                        class="default-btn btn-six">
+                                                                        بیشتر بدانید
+                                                                </a>
+                                                        </div>
+                                                </div>
+                                                {% endfor %}
+
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</section>
+
+
+<section class="counter-area counter-area-three pt-100 pb-70">
+        <div class="container">
+                <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="single-counter">
+                                        <i class="bx bx-check-circle"></i>
+                                        <h2>
+                                                <span class="odometer odometer-auto-theme" data-count="950">
+                                                        <div class="odometer-inside"><span class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">9</span></span></span></span></span><span
+                                                                        class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">5</span></span></span></span></span><span
+                                                                        class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">0</span></span></span></span></span>
+                                                        </div>
+                                                </span>
+                                                <span class="target">+</span>
+                                        </h2>
+                                        <p>پروژه تکمیل</p>
+                                </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="single-counter">
+                                        <i class="flaticon-trophy"></i>
+                                        <h2>
+                                                <span class="odometer odometer-auto-theme" data-count="850">
+                                                        <div class="odometer-inside"><span class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">8</span></span></span></span></span><span
+                                                                        class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">5</span></span></span></span></span><span
+                                                                        class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">0</span></span></span></span></span>
+                                                        </div>
+                                                </span>
+                                                <span class="target">+</span>
+                                        </h2>
+                                        <p>جوایز اهدایی</p>
+                                </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="single-counter">
+                                        <i class="flaticon-smile"></i>
+                                        <h2>
+                                                <span class="odometer odometer-auto-theme" data-count="{{ request.user.count }}">
+                                                        <div class="odometer-inside"><span class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">5</span></span></span></span></span><span
+                                                                        class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">5</span></span></span></span></span><span
+                                                                        class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">0</span></span></span></span></span>
+                                                        </div>
+                                                </span>
+                                                <span class="traget">+</span>
+                                        </h2>
+                                        <p>مشتریان</p>
+                                </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="single-counter">
+                                        <i class="flaticon-flags"></i>
+                                        <h2>
+                                                <span class="odometer odometer-auto-theme" data-count="440">
+                                                        <div class="odometer-inside"><span class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">4</span></span></span></span></span><span
+                                                                        class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">4</span></span></span></span></span><span
+                                                                        class="odometer-digit"><span
+                                                                                class="odometer-digit-spacer">8</span><span
+                                                                                class="odometer-digit-inner"><span
+                                                                                        class="odometer-ribbon"><span
+                                                                                                class="odometer-ribbon-inner"><span
+                                                                                                        class="odometer-value">0</span></span></span></span></span>
+                                                        </div>
+                                                </span>
+                                                <span class="target">+</span>
+                                        </h2>
+                                        <p>کشورها</p>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</section>
+
+<section class="choose-us-area-three choose-us-area-five pt-100 pb-70">
+        <div class="container">
+                <div class="section-title section-title-five">
+                        <span>ویژگی های ما</span>
+                        <h2>با حمایت از بیمه ، نگرانی را از زندگی خارج کنید</h2>
+                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.
+                                لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده
+                                است.</p>
+                </div>
+                <div class="row">
+                        <div class="col-lg-4 col-sm-6">
+                                <div class="single-choose">
+                                        <span class="flaticon-hand"></span>
+                                        <h3>آرامش خاطر</h3>
+                                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد
+                                                صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد.
+                                        </p>
+                                </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                                <div class="single-choose">
+                                        <span class="flaticon-life-insurance-1"></span>
+                                        <h3>مجموعه ای برای زندگی</h3>
+                                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد
+                                                صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد.
+                                        </p>
+                                </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 offset-sm-3 offset-lg-0">
+                                <div class="single-choose">
+                                        <span class="flaticon-insurance-1"></span>
+                                        <h3>سرپوشیده</h3>
+                                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد
+                                                صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را در بر می گیرد.
+                                        </p>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</section>
+
+
+<section class="find-an-agent-area pb-100">
+        <div class="container">
+                <div class="find-an-agent-bg">
+                        <div class="row align-items-center">
+                                <div class="col-lg-4">
+                                        <div class="find-an-agent-content">
+                                                <h2>قیمت سریع دریافت کنید</h2>
+                                                <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم
+                                                        استاندارد صنعت بوده است. لورم ایپسوم ساختار چاپ و متن را
+                                                        در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.</p>
+                                                <a href="http://0.0.0.0:8000/team/" class="default-btn btn-five">
+                                                        نماینده پیدا کنید
+                                                </a>
+                                        </div>
+                                </div>
+                                <div class="col-lg-8">
+                                        <div class="row">
+                                                <div class="col-lg-4 col-sm-6 p-0">
+                                                        <div class="single-find-an-agent">
+                                                                <i class="bx bx-home"></i>
+                                                                <a href="insurance-details.html">
+                                                                        منزل
+                                                                </a>
+                                                        </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6 p-0">
+                                                        <div class="single-find-an-agent">
+                                                                <i class="bx bx-car"></i>
+                                                                <a href="insurance-details.html">
+                                                                        ماشین
+                                                                </a>
+                                                        </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6 p-0">
+                                                        <div class="single-find-an-agent">
+                                                                <i class="bx bxs-business"></i>
+                                                                <a href="insurance-details.html">
+                                                                        تجارت
+                                                                </a>
+                                                        </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6 p-0">
+                                                        <div class="single-find-an-agent">
+                                                                <i class="bx bxs-plane"></i>
+                                                                <a href="insurance-details.html">
+                                                                        سفر
+                                                                </a>
+                                                        </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6 p-0">
+                                                        <div class="single-find-an-agent">
+                                                                <i class="bx bx-user-circle"></i>
+                                                                <a href="insurance-details.html">
+                                                                        زندگی
+                                                                </a>
+                                                        </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6 p-0">
+                                                        <div class="single-find-an-agent">
+                                                                <i class="bx bx-book-reader"></i>
+                                                                <a href="insurance-details.html">
+                                                                        بیشتر
+                                                                </a>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</section>
+
+{% include "frontend/partials/_typesinsurance.html" %}
+{% include "frontend/includes/_renewal.html" %}
+
+
+<section class="blog-area blog-area-five pt-100 pb-70">
+        <div class="container">
+                <div class="section-title section-title-five">
+                        <span>وبلاگ</span>
+                        <h2>آخرین اخبار از وبلاگ ما</h2>
+                        <p>لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده است.
+                                لورم ایپسوم ساختار چاپ و متن را در بر می گیرد. لورم ایپسوم استاندارد صنعت بوده
+                                است.</p>
+                </div>
+                <div class="row">
+                        {% for new in news|slice:":3" %}
+                        <div class="col-lg-4 col-md-6">
+                                <div class="single-blog">
+                                        <a href="blog-details.html">
+                                                {% if new.banner %}
+                                                <img src="{{ new.banner.url }}" alt="Image">
+                                                {% else %}
+                                                <img src="https://www.bimehasia.com/getattachment/9387d4a0-b293-4c55-90b3-d3bb8fb3d44b/sait?height=530" alt="Image">
+                                                {% endif %}
+                                        </a>
+                                        <div class="blog-content">
+                                                <ul>
+                                                        <li>
+                                                                {{ new.published_at|jalali_date }}
+                                                        </li>
+                                                        <li>
+                                                                <a href="#">{{ new.author.first_name }}-{{ new.author.last_name }}</a>
+                                                        </li>
+                                                </ul>
+                                                <a href="blog-details.html">
+                                                        <h3>{{ new.summary }}</h3>
+                                                </a>
+                                                <a href="{{ new.get_absolute_url }}" class="read-more">
+                                                        ادامه خواندن
+                                                        <i class="bx bx-plus"></i>
+                                                </a>
+                                        </div>
+                                </div>
+                        </div>
+                        {% endfor %}
+                </div>
+        </div>
+</section>
+
+{% endblock %}
+{% block script %}
+
+    {% endblock %}

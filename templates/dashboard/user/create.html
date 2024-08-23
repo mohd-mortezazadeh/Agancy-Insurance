@@ -1,0 +1,149 @@
+{% extends "dashboard/layouts/base.html" %}
+{% load static %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+  <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% include "dashboard/includes/_headnav.html" %}
+
+<form method="POST" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    
+    <div class="row">
+        <div class="col-12 col-xl-8">
+            <div class="card card-body bg-white border-light shadow-sm mb-4">
+                <h2 class="h5 mb-4">اطلاعات شما</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label for="first_name">نام </label>
+                            <input name="first_name" class="form-control {% if form.user.errors.first_name %} border-danger
+                                    {% endif %}" id="first_name" type="text" name="first_name"
+                                placeholder="Enter your first name" value="{{ profile.user.first_name }}">
+                            {% for error in form.user.errors.first_name %}
+                            <p class="text-danger">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label for="last_name">نام خانوادگی</label>
+                            <input name="last_name" class="form-control {% if form.user.errors.last_name %} border-danger
+                                    {% endif %}" id="last_name" type="text" placeholder="Also your last name"
+                                value="{{ profile.user.last_name }}">
+
+                            {% for error in form.user.errors.last_name %}
+                            <p class="text-danger">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="email">ایمیل</label>
+                            <input name="email" class="form-control" id="email" type="email"
+                                placeholder="name@company.com" value="{{ profile.user.email }}" readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="phone">تلفن همراه</label>
+                            <input name="mobile" class="form-control {% if form.errors.mobile %} border-danger
+                                    {% endif %}" id="phone" type="text" value="{{ profile.user.mobile }}">
+                            {% for error in form.errors.phone %}
+                            <p class="text-danger">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="phone">کدملی</label>
+                            <input name="code" class="form-control {% if form.errors.code %} border-danger
+                                    {% endif %}" id="code" type="text" value="{{ profile.code }}">
+                            {% for error in form.errors.phone %}
+                            <p class="text-danger">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 mb-3">
+                        <div class="form-group">
+                            <label for="address">آدرس</label>
+                            <input name="address" class="form-control" id="address" type="text" placeholder="آدرس "
+                                value="{{ profile.address|default:'' }}">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 mb-3">
+                        <div class="form-group">
+                            <label for="number">تلفن ثابت</label>
+                            <input name="phone" class="form-control" id="phone" type="text" placeholder="شماره تلفن."
+                                value="{{ profile.phone|default:'' }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="zip">کدپستی</label>
+                            <input name="zip" class="form-control" id="zip" type="tel" placeholder="کدپستی"
+                                value="{{ profile.zip|default:'' }}">
+                        </div>
+                        {% for error in form.errors.code %}
+                        <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="file">تصویر</label>
+                            <input name="avatar" class="form-control" id="file" type="file"
+                                value="{{ profile.get_avatar|default:'' }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-primary btn-block mt-5">ویرایش پروفایل</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-4">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="card border-light text-center p-0">
+                        <div class="profile-cover rounded-top"
+                            data-background="{% static 'assets/backend/img/profile-cover.jpg' %}"></div>
+                        <div class="card-body pb-5">
+                            <img src="{{ user.profile.get_avatar }}" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4"
+                                alt="Neil Portrait">
+                            <h4 class="h3">نام: {{ profile.user.first_name }}</h4>
+                            <h4 class="font-weight-normal">نام خانوادگی: {{ profile.user.last_name }}</h4>
+                            <h5 class="font-weight-normal">
+                                ایمیل: {{ request.user.email }}
+                            </h5>
+                            <p class="text-gray mb-4">آدرس: {{ profile.address|default:'' }}</p>
+                            <a class="btn btn-sm btn-secondary" href="#">فرستادن پیام</a>
+                        </div>
+                    </div>
+                </div>
+           
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
